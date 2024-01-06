@@ -3,38 +3,47 @@ const elements = document.querySelector(".elements");
 class Component {
   #componentRef;
 
-  constructor(id, name, type, value, innerText) {
-    this.build(id, name, type, value, innerText);
+  constructor(element, id, name, type, value, innerText) {
+    this.build(element, id, name, type, value, innerText);
   }
 
   readValue() {
-    console.log(this.value);
+    return console.log(this.value);
   }
 
-  build(id, name, type, value, innerText) {
+  build(element, id, name, type, value, innerText) {
+    this.element = element
     this.#componentRef = id;
     this.name = name;
     this.type = type;
-    this.value = value;
+    this.value = value ?? 'Oi';
     this.innerText = innerText;
 
-    const createNewBtn = document.createElement("button");
-    createNewBtn.id = this.#componentRef;
-    createNewBtn.name = this.name;
-    createNewBtn.type = this.type;
-    createNewBtn.value = this.value;
-    createNewBtn.innerText = this.innerText;
-    elements.appendChild(createNewBtn);
+    const createNewElement = document.createElement(element);
+    createNewElement.id = this.#componentRef;
+    createNewElement.name = this.name;
+    createNewElement.type = this.type;
+    createNewElement.value = this.value;
+    createNewElement.innerText = this.innerText;
 
-    this.readValue(createNewBtn);
+    this.readValue(createNewElement);
+    this.render(createNewElement)
+    
   }
 
-  render() {}
+  render(element) {
+    return elements.appendChild(element);
+  }
 }
 
-const createBtn = new Component("btnId", "btnName", "Submit", "MyValue", "Oi");
+class Input extends Component {
+  constructor(type) {
+    super(type);
+    this.type = type
+  }
+}
 
-class Input extends Component {}
+const newInput = new Component('input', 'inputId', 'inputName', 'text',)
 
 class Label extends Component {}
 
