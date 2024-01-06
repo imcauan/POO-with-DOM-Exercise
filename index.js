@@ -1,39 +1,38 @@
-const elements = document.querySelector('.elements')
+const elements = document.querySelector(".elements");
 
 class Component {
-  #componentRef = null
+  #componentRef;
 
-
-  constructor() {
-  }
-  
-  readValue(value) {
-    const btnValue = this.value = value
+  constructor(id, name, type, value, innerText) {
+    this.build(id, name, type, value, innerText);
   }
 
-  build(id, name, type, btnValue){
-    this.#componentRef = id
-    this.name = name
-    this.type = type
-    this.value = btnValue
-
-    const createBtn = document.createElement('button')
-    createBtn.id = this.#componentRef
-    createBtn.name = this.name
-    createBtn.type = this.type
-    createBtn.value = this.value
-    createBtn.innerText = `Testando`
-    
-  } 
-  
-  render(createBtn) {
-    elements.appendChild(createBtn)
+  readValue() {
+    console.log(this.value);
   }
+
+  build(id, name, type, value, innerText) {
+    this.#componentRef = id;
+    this.name = name;
+    this.type = type;
+    this.value = value;
+    this.innerText = innerText;
+
+    const createNewBtn = document.createElement("button");
+    createNewBtn.id = this.#componentRef;
+    createNewBtn.name = this.name;
+    createNewBtn.type = this.type;
+    createNewBtn.value = this.value;
+    createNewBtn.innerText = this.innerText;
+    elements.appendChild(createNewBtn);
+
+    this.readValue(createNewBtn);
+  }
+
+  render() {}
 }
 
-const addBtn = new Component()
-addBtn.build('btnId', 'btnName', 'Submit', 'Testando')
-addBtn.render()
+const createBtn = new Component("btnId", "btnName", "Submit", "MyValue", "Oi");
 
 class Input extends Component {}
 
