@@ -1,38 +1,29 @@
 const elements = document.querySelector(".elements");
-
 class Component {
-  #componentRef;
+  #element;
 
-  constructor(element, id, name, type, value, innerText) {
-    this.build(element, id, name, type, value, innerText);
+  constructor(tag, attributes, parent) {
+    this.tag = tag
+    this.parent = parent
+    this.attributes = attributes
+    this.build();
   }
 
   readValue() {
-    return console.log(this.value);
+    return console.log(this.#element.value);
   }
 
-  build(element, id, name, type, value, innerText) {
-    this.element = element
-    this.#componentRef = id;
-    this.name = name;
-    this.type = type;
-    this.value = value ?? 'Oi';
-    this.innerText = innerText;
+  build() {
+    this.#element = document.createElement(this.tag);
+    Object.assign(this.#element, this.attributes)
 
-    const createNewElement = document.createElement(element);
-    createNewElement.id = this.#componentRef;
-    createNewElement.name = this.name;
-    createNewElement.type = this.type;
-    createNewElement.value = this.value;
-    createNewElement.innerText = this.innerText;
-
-    this.readValue(createNewElement);
-    this.render(createNewElement)
-    
+    this.readValue(this.#element);
+    this.render()    
   }
 
-  render(element) {
-    return elements.appendChild(element);
+  render() {
+    this.parent = document.querySelector('.elements')
+    return this.parent.appendChild(this.#element);
   }
 }
 
@@ -43,8 +34,20 @@ class Input extends Component {
   }
 }
 
-const newInput = new Component('input', 'inputId', 'inputName', 'text',)
+class Label extends Component {
+  constructor(labelFor, parent, attributes) {
+    super('label', parent, {...attributes, labelFor})
+  }
+}
+class Form extends Component {
+  constructor(attributes) {
+    super('form', attributes, elements)
+}
+  attach(element) {
+    this.element = element
+  }
+}
 
-class Label extends Component {}
-
-class Form extends Component {}
+const form = new Form({id: 'meuID', name: 'meuName'})
+const btn = new Component('button', {innerText: 'Enviar', id: 'sendDataBtn'})
+const component = new Component('input', {id: 'myInput', placeholder: 'Digite seu login'})
