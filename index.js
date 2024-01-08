@@ -1,53 +1,14 @@
-const elements = document.querySelector(".elements");
-class Component {
-  #element;
+import { Component } from "./Component.js"
+import { Input } from "./Input.js";
+import { Form } from "./Form.js";
+import { Label } from "./Label.js";
 
-  constructor(tag, attributes, parent) {
-    this.tag = tag
-    this.parent = parent
-    this.attributes = attributes
-    this.build();
-  }
+const elements = document.querySelector('.elements')
 
-  readValue() {
-    return console.log(this.#element.value);
-  }
+const form = new Form({id: 'formID', className: 'form-content'}, elements)
+const title = new Component('h3', {id: 'titleID', textContent: 'Hello World'}, form)
+const input = new Input({type: 'text', placeholder: 'Digite seu email', id: 'emailInput'})
+const passwordInput = new Input( {type: 'password', placeholder: 'Digite sua senha', id: 'passwordInput'})
+const login = new Component('button', {type: 'submit', id: 'loginInput', innerText: 'Login'})
 
-  build() {
-    this.#element = document.createElement(this.tag);
-    Object.assign(this.#element, this.attributes)
-
-    this.readValue(this.#element);
-    this.render()    
-  }
-
-  render() {
-    this.parent = document.querySelector('.elements')
-    return this.parent.appendChild(this.#element);
-  }
-}
-
-class Input extends Component {
-  constructor(type) {
-    super(type);
-    this.type = type
-  }
-}
-
-class Label extends Component {
-  constructor(labelFor, parent, attributes) {
-    super('label', parent, {...attributes, labelFor})
-  }
-}
-class Form extends Component {
-  constructor(attributes) {
-    super('form', attributes, elements)
-}
-  attach(element) {
-    this.element = element
-  }
-}
-
-const form = new Form({id: 'meuID', name: 'meuName'})
-const btn = new Component('button', {innerText: 'Enviar', id: 'sendDataBtn'})
-const component = new Component('input', {id: 'myInput', placeholder: 'Digite seu login'})
+form.attachChild(title, input, passwordInput, login)
